@@ -86,15 +86,15 @@ describe("Empty SudokuBoard", function () {
 
 	// Test it
 	it("should be empty", function () {
-		expect(board.filledCells).to.have.lengthOf(0);
+		expect(board.getFilledCells()).to.have.lengthOf(0);
 	});
 
 	it("should have no errors", function () {
-		expect(board.errors).to.have.lengthOf(0);
+		expect(board.getErrors()).to.have.lengthOf(0);
 	});
 
 	it("should not be solved", function () {
-		expect(board.solved).to.be.false;
+		expect(board.isSolved()).to.be.false;
 	});
 });
 
@@ -105,15 +105,15 @@ describe("Partially filled SudokuBoard", function () {
 
 		// Test it
 		it("should have no errors", function () {
-			expect(board.errors).to.have.lengthOf(0);
+			expect(board.getErrors()).to.have.lengthOf(0);
 		});
 
 		it("should have 30 filled cells", function () {
-			expect(board.filledCells).to.have.lengthOf(30);
+			expect(board.getFilledCells()).to.have.lengthOf(30);
 		});
 
 		it("should not be solved", function () {
-			expect(board.solved).to.be.false;
+			expect(board.isSolved()).to.be.false;
 		});
 	});
 
@@ -158,7 +158,7 @@ describe("Partially filled SudokuBoard", function () {
 				const board = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
 
 				// Store the number of filled cells
-				const filledCells = board.filledCells.length;
+				const filledCells = board.getFilledCells().length;
 
 				it("should work and return an empty array when putting a 5 in the center cell", function () {
 					let errors = board.setCellValue(CENTER_CELL_INDEX, 5);	// This permanently modifies the board
@@ -167,11 +167,11 @@ describe("Partially filled SudokuBoard", function () {
 				});
 
 				it("should still not have any errors", function () {
-					expect(board.errors).to.have.lengthOf(0);
+					expect(board.getErrors()).to.have.lengthOf(0);
 				});
 
 				it("should increase the number of filled cells by 1", function () {
-					expect(board.filledCells.length).to.equal(filledCells + 1);
+					expect(board.getFilledCells().length).to.equal(filledCells + 1);
 				});
 			});
 
@@ -180,7 +180,7 @@ describe("Partially filled SudokuBoard", function () {
 				const board = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
 
 				// Store the number of filled cells
-				const filledCells = board.filledCells.length;
+				const filledCells = board.getFilledCells().length;
 
 				it("should work, but return a non-empty array when putting a 3 in the center cell", function () {
 					let errors = board.setCellValue(CENTER_CELL_INDEX, 3);
@@ -189,11 +189,11 @@ describe("Partially filled SudokuBoard", function () {
 				});
 
 				it("should now have errors", function () {
-					expect(board.errors).to.not.have.lengthOf(0);
+					expect(board.getErrors()).to.not.have.lengthOf(0);
 				});
 
 				it("should increase the number of filled cells by 1", function () {
-					expect(board.filledCells.length).to.equal(filledCells + 1);
+					expect(board.getFilledCells().length).to.equal(filledCells + 1);
 				});
 
 				describe("Removing the value again", function () {
@@ -203,11 +203,11 @@ describe("Partially filled SudokuBoard", function () {
 					});
 
 					it("should empty the error array again", function () {
-						expect(board.errors).to.have.lengthOf(0);
+						expect(board.getErrors()).to.have.lengthOf(0);
 					});
 
 					it("should bring the number of filled fields back down", function () {
-						expect(board.filledCells.length).to.equal(filledCells);
+						expect(board.getFilledCells().length).to.equal(filledCells);
 					});
 				});
 			});
@@ -221,15 +221,15 @@ describe("Solved SudokuBoard", function () {
 
 	// Test it
 	it("should have no errors", function () {
-		expect(board.errors).to.have.lengthOf(0);
+		expect(board.getErrors()).to.have.lengthOf(0);
 	});
 
 	it("should be filled", function () {
-		expect(board.filledCells).to.have.lengthOf(SudokuBoard.CELL_COUNT);
+		expect(board.getFilledCells()).to.have.lengthOf(SudokuBoard.CELL_COUNT);
 	});
 
 	it("should be solved", function () {
-		expect(board.solved).to.be.true;
+		expect(board.isSolved()).to.be.true;
 	});
 });
 
@@ -242,15 +242,15 @@ describe("Filled SudokuBoard with errors", function () {
 
 	// Test it
 	it("should have errors", function () {
-		expect(board.errors).to.not.have.lengthOf(0);
+		expect(board.getErrors()).to.not.have.lengthOf(0);
 	});
 
 	it("should be filled", function () {
-		expect(board.filledCells).to.have.lengthOf(SudokuBoard.CELL_COUNT);
+		expect(board.getFilledCells()).to.have.lengthOf(SudokuBoard.CELL_COUNT);
 	});
 
 	it("should not be solved", function () {
-		expect(board.solved).to.be.false;
+		expect(board.isSolved()).to.be.false;
 	});
 });
 
