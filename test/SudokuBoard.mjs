@@ -50,11 +50,12 @@ const SOLVED_BOARD_ARRAY = `
 
 const CENTER_CELL_INDEX = 40;
 
+const {assert, expect, should} = chai;
+
 /******************
  * Do the testing *
  ******************/
 
-const {assert, expect, should} = chai;
 
 describe("Constructing a SudokuBoard", function () {
 	it("should throw TypeError if given an object", function () {
@@ -253,19 +254,49 @@ describe("Filled SudokuBoard with errors", function () {
 	});
 });
 
+describe("Comparing sudoku boards", function () {
+	// Create the initial board
+	const board1 = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
+
+	// Change it a bit
+	board1.setCellValue(CENTER_CELL_INDEX, 5);
+
+	// Make another board
+	const board2 = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
+
+	// Test them
+	it("should be different", function () {
+		expect(board1.equals(board2)).to.be.false;
+		expect(board2.equals(board1)).to.be.false;
+	});
+
+	it("should refuse to be compared to anything but a SudokuBoard", function () {
+		expect(() => board1.equals("")).to.throw(TypeError);
+		expect(() => board1.equals(5)).to.throw(TypeError);
+		expect(() => board1.equals([])).to.throw(TypeError);
+		expect(() => board1.equals({})).to.throw(TypeError);
+		expect(() => board1.equals(() => {})).to.throw(TypeError);
+		expect(() => board1.equals(Symbol())).to.throw(TypeError);
+	});
+});
+
 describe("Cloning a sudoku board", function () {
+	// Create the initial board
+	const board = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
+
+	// Handle for the clone
+	let clone = null;
+
+	it("should make a new SudokuBoard", function () {
+		// Do the clone
+		clone = board.clone();
+
+		expect(clone).to.be.an.instanceOf(SudokuBoard);
+	});
+
 	it("should equal the original board", function () {
-		// Create the initial board
-		const board = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
-
-		// Clone it
-		const clone = board.clone();
-
-		// Verify that they are equal by turning them into arrays and comparing each cell
-		const origCells = [...board];
-		const clonedCells = [...clone];
-		for (let i = 0; i < SudokuBoard.CELL_COUNT; i++) {
-			expect(origCells[i]).to.deep.equal(clonedCells[i]);
-		}
+		// Verify that they are equal
+		expect(board.equals(clone)).to.be.true;
+		expect(clone.equals(board)).to.be.true;
 	});
 });
