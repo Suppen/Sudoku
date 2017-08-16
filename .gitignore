@@ -1,0 +1,8 @@
+# vim files
+*.swp
+
+# cache for the esm module
+.esm-cache/
+
+# npm packages
+node_modules/
