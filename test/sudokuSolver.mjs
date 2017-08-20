@@ -55,20 +55,31 @@ const {assert, expect, should} = chai;
  ******************/
 
 describe("Sudoku Solver", function () {
-	// Create the initial board
-	const board = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
+	describe("Solvable board", function () {
+		// Create the initial board
+		const board = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
 
-	// Create the solved board
-	const correctSolution = new SudokuBoard(SOLVED_BOARD_ARRAY);
+		// Create the solved board
+		const correctSolution = new SudokuBoard(SOLVED_BOARD_ARRAY);
 
-	it("should solve the board", function () {
-		// This takes some time
-		this.slow(500);
+		it("should solve the board", function () {
+			// Do the solving
+			const solution = sudokuSolver(board);
 
-		// Do the solving
-		const solution = sudokuSolver(board);
+			// Verify that the solution is correct
+			expect(solution.equals(correctSolution)).to.be.true;
+		});
+	});
 
-		// Verify that the solution is correct
-		expect(solution.equals(correctSolution)).to.be.true;
+	describe("Unsolvable board", function () {
+		// Create the initial board
+		const board = new SudokuBoard(PARTIALLY_FILLED_BOARD_ARRAY);
+
+		// Edit it so it is unsolvable. Put a 1 in the lower left corner
+		board.setCellValue(71, 1);
+
+		it("should throw an error", function () {
+			expect(() => sudokuSolver(board)).to.throw(Error);
+		});
 	});
 });
