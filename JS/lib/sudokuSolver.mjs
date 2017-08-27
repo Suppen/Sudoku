@@ -5,6 +5,7 @@
  **************************/
 
 import _ from "lodash";
+import { SudokuBoard } from "./SudokuBoard";
 
 /***********
  * Helpers *
@@ -41,7 +42,7 @@ function sudokuSolver(board, startIndex = 0) {
 
 	// Find the first empty cell
 	let cellIndex = startIndex;
-	while (board.getCell(cellIndex).value !== 0) {
+	while (board.getCell(cellIndex).value !== SudokuBoard.EMPTY_VALUE) {
 		cellIndex++;
 	}
 
@@ -56,6 +57,7 @@ function sudokuSolver(board, startIndex = 0) {
 		_.map(board.getSquare(cell.square), extractValue)
 	);
 
+	// Try all values until a solved board is found
 	while (possibleValues.length > 0 && solvedBoard === null) {
 		// Set the cell to the next value
 		board.setCellValue(cellIndex, possibleValues.pop());
@@ -70,6 +72,10 @@ function sudokuSolver(board, startIndex = 0) {
 
 	// Check if the board was actually solved
 	if (solvedBoard === null) {
+		// Reset the cell
+		board.setCellValue(cellIndex, SudokuBoard.EMPTY_VALUE);
+
+		// Complain loudly
 		throw new Error("Board is unsolvable");
 	}
 

@@ -385,8 +385,8 @@ class SudokuBoard {
 	displayGrid() {
 		let grid = "";
 		for (let i = 1; i <= 9; i++) {
-			let row = this.getRow(i);
-			grid += `${row.slice(0, 3).map(({value}) => value).join("")}  ${row.slice(3, 6).map(({value}) => value).join("")}  ${row.slice(6, 9).map(({value}) => value).join("")}\n`;
+			let row = this.getRow(i).map(({value}) => value);
+			grid += `${row.slice(0, 3).join("")}  ${row.slice(3, 6).join("")}  ${row.slice(6, 9).join("")}\n`;
 
 			if (i % 3 === 0 && i !== 9) {
 				grid += "\n";

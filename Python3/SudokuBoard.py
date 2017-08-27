@@ -213,7 +213,7 @@ class SudokuBoard():
     def get_square(self, num):
         """Gets the cells in a square"""
 
-        return self.get_cells(SudokuBoard._ROW_TO_CELL_INDICES[num])
+        return self.get_cells(SudokuBoard._SQUARE_TO_CELL_INDICES[num])
 
     def _get_errors(self, row_num, col_num, square_num):
         """Gets errors in the given row, column and square"""
@@ -281,3 +281,17 @@ class SudokuBoard():
 
         # Else check the cells
         return [cell["value"] for cell in self.get_cells(range(SudokuBoard.CELL_COUNT))] == [cell["value"] for cell in other.get_cells(range(SudokuBoard.CELL_COUNT))]
+
+    def display_grid(self):
+        """Displays the sudoku board in a grid. Mostly for debugging purposes"""
+
+        grid = ""
+        for i in range(1, 10):
+            row = [str(cell["value"]) for cell in self.get_row(i)]
+            row = ["_" if val == str(SudokuBoard.EMPTY_VALUE) else val for val in row]
+            grid += "".join(row[0:3]) + " " + "".join(row[3:6]) + " " + "".join(row[6:9]) + "\n"
+
+            if i % 3 == 0 and i != 9:
+                grid += "\n"
+
+        print(grid)
