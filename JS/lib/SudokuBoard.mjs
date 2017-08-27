@@ -90,13 +90,7 @@ class SudokuBoard {
 	 * @throws {TypeError}	If the boardStr argument is not a string
 	 * @throws {LengthError}	If the boardStr does not have a length of 81 ({@link SudokuBoard.CELL_COUNT})
 	 */
-	constructor(boardArray = undefined) {
-		// Check if anything was given
-		if (boardArray === undefined) {
-			// Nope. Make a new one with only empty values
-			boardArray = new Array(SudokuBoard.CELL_COUNT).fill(SudokuBoard.EMPTY_VALUE);
-		}
-
+	constructor(boardArray = new Array(SudokuBoard.CELL_COUNT).fill(SudokuBoard.EMPTY_VALUE)) {
 		// Verify that the board array is actually an array
 		if (!(boardArray instanceof Array)) {
 			throw new TypeError("boardArray must be an array");
@@ -221,6 +215,7 @@ class SudokuBoard {
 
 		// Find and return the errors
 		return _.chain(this._getErrors(cell.row, cell.col, cell.square))
+		  .filter(({value}) => value === newVal)	// Only the errors created by this number
 		  .uniqBy(({index}) => index)
 		  .value();
 	}
@@ -232,7 +227,7 @@ class SudokuBoard {
 	 * @param {Integer} colNum	Column number to check for errors. Integer in the range 1-9
 	 * @param {Integer} squareNum	Square number to check for errors. Integer in the range 1-9
 	 *
-	 * @returns {Cell[]}	A list of cells with errors on the board
+	 * @returns {Cell[]}	A list of cells with errors on the board. There will be duplicates
 	 *
 	 * @private
 	 */
@@ -262,7 +257,6 @@ class SudokuBoard {
 			  .value();
 		  })
 		  .flatten()
-		  .uniqBy(({index}) => index)	// There will be multiples of every error
 		  .value();
 	}
 
