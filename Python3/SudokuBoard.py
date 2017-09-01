@@ -1,7 +1,3 @@
-################################
-# Define the SudokuBoard class #
-################################
-
 class SudokuBoard():
     """A standard 9x9 Sudoku board"""
 
@@ -130,7 +126,11 @@ class SudokuBoard():
     }
 
     def __init__(self, board_list = [EMPTY_VALUE] * 81):
-        """Creates a new board from a string"""
+        """
+        Creates a new board from a list of 81 values
+
+        :param board_list: The list to generate the board from
+        """
 
         # The board string must be 81 characters
         if len(board_list) != 81:
@@ -172,14 +172,6 @@ class SudokuBoard():
 
     def set_cell_value(self, index, new_val):
         """Sets the value of a cell on the board"""
-
-        # Verify that the index is an integer
-        if not isinstance(index, int):
-            raise TypeError("Index must be an integer in the range 0 - SudokuBoard.CELL_COUNT-1")
-
-        # Verify that the index is in the range 0 - SudokuBoard.CELL_COUNT-1
-        if index < 0 or index >= SudokuBoard.CELL_COUNT:
-            raise ValueError("Index must be an integer in the range 0 - SudokuBoard.CELL_COUNT-1")
 
         # Verify that the new value is valid
         if not SudokuBoard.is_valid_cell_value(new_val):
